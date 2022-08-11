@@ -1,8 +1,9 @@
 package vn.thodzai.base;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -20,14 +21,14 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
 
     /*
-     * WebDriver - done
      * Maven
-     * TestNG
+     * TestNG - done
+     * WebDriver - done
      * Properties - done
+     * Logs - log4j
      * ReportNG
      * ExtentReports
      * Excel Reader
-     * Logs - log4j
      * Mails
      * Zip
      * Listeners - Soft assertions, Test Failure
@@ -54,7 +55,6 @@ public class TestBase {
 
         if (webDriver == null) {
 
-//            BasicConfigurator.configure();
             PropertyConfigurator.configure(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\log4j.properties");
 
             try {
@@ -122,6 +122,19 @@ public class TestBase {
         }
 
         logger.debug("Test Execution Completed !!!");
+
+    }
+
+    public boolean isElementPresent(By by) {
+
+        try {
+
+            webDriver.findElement(by);
+            return true;
+
+        } catch (NoSuchElementException e) {
+            return false;
+        }
 
     }
 
