@@ -1,0 +1,7 @@
+DEBUG   2022-08-11 15:21:24,175 [main] applicationLogger  - Config file loaded !!!
+DEBUG   2022-08-11 15:21:24,176 [main] applicationLogger  - OR file loaded !!!
+DEBUG   2022-08-11 15:21:26,885 [main] applicationLogger  - EdgeDriver file loaded !!!
+DEBUG   2022-08-11 15:21:48,822 [main] applicationLogger  - Navigated to : https://www.way2automation.com/angularjs-protractor/banking/#/login
+DEBUG   2022-08-11 15:21:48,977 [main] applicationLogger  - Inside Login Test
+DEBUG   2022-08-11 15:21:52,224 [main] applicationLogger  - Login Successfully Executed
+DEBUG   2022-08-11 15:21:52,926 [main] applicationLogger  - Test Execution Completed !!!

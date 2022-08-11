@@ -2,6 +2,7 @@ package vn.thodzai.base;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -50,9 +51,11 @@ public class TestBase {
     @BeforeSuite
     public void setUp() {
 
-        BasicConfigurator.configure();
 
         if (webDriver == null) {
+
+//            BasicConfigurator.configure();
+            PropertyConfigurator.configure(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\log4j.properties");
 
             try {
                 fileInputStream = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\Config.properties");
