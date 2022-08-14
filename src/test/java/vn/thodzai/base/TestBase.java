@@ -1,7 +1,7 @@
 package vn.thodzai.base;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -47,18 +47,18 @@ public class TestBase {
     public static Properties config = new Properties();
     public static Properties OR = new Properties();
     public static FileInputStream fileInputStream;
-    public static Logger logger = Logger.getLogger("applicationLogger");
+    public static Logger logger = LogManager.getLogger(TestBase.class);
 
     @BeforeSuite
     public void setUp() {
 
-
         if (webDriver == null) {
 
-            PropertyConfigurator.configure(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\log4j.properties");
+            String resourceProperties = System.getProperty("user.dir") + (System.getProperty("os.name").contains("Mac") ? "/src/test/resources/properties/" : "\\src\\test\\resources\\properties\\");
+            String resourceExecutables = System.getProperty("user.dir") + (System.getProperty("os.name").contains("Mac") ? "/src/test/resources/executables/" : "\\src\\test\\resources\\executables\\");
 
             try {
-                fileInputStream = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\Config.properties");
+                fileInputStream = new FileInputStream(resourceProperties + "Config.properties");
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -70,7 +70,7 @@ public class TestBase {
             }
 
             try {
-                fileInputStream = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\OR.properties");
+                fileInputStream = new FileInputStream(resourceProperties + "OR.properties");
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -88,19 +88,23 @@ public class TestBase {
                 webDriver = new FirefoxDriver();
 
             } else if (config.getProperty("browser").equals("chrome")) {
-				/*System.setProperty("webdriver.chrome.driver",
-						System.getProperty("user.dir") + "\\src\\test\\resources\\executables\\chromedriver.exe");
-			*/
+//                System.setProperty("webdriver.chrome.driver", resourceExecutables + "chromedriver.exe");
+
 //                WebDriverManager.chromedriver().setup();
                 webDriver = new ChromeDriver();
 
             } else if (config.getProperty("browser").equals("msedgedriver_win64")) {
-                System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "\\src\\test\\resources\\executables\\msedgedriver_win64.exe");
+                System.setProperty("webdriver.edge.driver", resourceExecutables + "msedgedriver_win64.exe");
+                webDriver = new EdgeDriver();
+                logger.debug("EdgeDriver file loaded !!!");
+
+            } else if (config.getProperty("browser").equals("msedgedriver_mac")) {
+                System.setProperty("webdriver.edge.driver", resourceExecutables + "msedgedriver_mac");
                 webDriver = new EdgeDriver();
                 logger.debug("EdgeDriver file loaded !!!");
 
             } else if (config.getProperty("browser").equals("safari")) {
-//                System.setProperty("webdriver.edge.driver", System.getProperty("user.dir") + "\\src\\test\\resources\\executables\\IEDriverServer.exe");
+//                System.setProperty("webdriver.edge.driver", resourceExecutables + "IEDriverServer.exe");
                 webDriver = new SafariDriver();
 
             }
