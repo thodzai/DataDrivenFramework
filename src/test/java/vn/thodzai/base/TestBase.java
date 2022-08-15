@@ -1,5 +1,6 @@
 package vn.thodzai.base;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -9,14 +10,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import vn.thodzai.utilities.ExcelReader;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public class TestBase {
 
@@ -47,24 +50,36 @@ public class TestBase {
     public static Properties config = new Properties();
     public static Properties OR = new Properties();
     public static FileInputStream fileInputStream;
-    public static Logger logger = LogManager.getLogger(TestBase.class);
+    public static Logger LOGGER = LogManager.getLogger(TestBase.class);
+    String resourceProperties = System.getProperty("user.dir");
+    String resourceExcel = System.getProperty("user.dir");
+    public static ExcelReader excelReader;
+    public static WebDriverWait webDriverWait;
 
     @BeforeSuite
     public void setUp() {
 
         if (webDriver == null) {
 
-            String resourceProperties = System.getProperty("user.dir") + (System.getProperty("os.name").contains("Mac") ? "/src/test/resources/properties/" : "\\src\\test\\resources\\properties\\");
-            String resourceExecutables = System.getProperty("user.dir") + (System.getProperty("os.name").contains("Mac") ? "/src/test/resources/executables/" : "\\src\\test\\resources\\executables\\");
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                resourceProperties += "\\src\\test\\resources\\properties\\";
+                resourceExcel += "\\src\\test\\resources\\excel\\";
+            } else {
+                resourceProperties += "/src/test/resources/properties/";
+                resourceExcel += "/src/test/resources/excel/";
+            }
+
+            excelReader = new ExcelReader(resourceExcel + "testdata.xlsx");
 
             try {
                 fileInputStream = new FileInputStream(resourceProperties + "Config.properties");
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
             try {
                 config.load(fileInputStream);
-                logger.debug("Config file loaded !!!");
+                LOGGER.debug("Config file loaded !!!");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -74,45 +89,41 @@ public class TestBase {
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
             try {
                 OR.load(fileInputStream);
-                logger.debug("OR file loaded !!!");
+                LOGGER.debug("OR file loaded !!!");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-
             if (config.getProperty("browser").equals("firefox")) {
-                // System.setProperty("webdriver.gecko.driver", "gecko.exe");
-//                WebDriverManager.firefoxdriver().setup();
+                WebDriverManager.firefoxdriver().setup();
                 webDriver = new FirefoxDriver();
+                LOGGER.debug("FirefoxDriver file loaded !!!");
 
             } else if (config.getProperty("browser").equals("chrome")) {
-//                System.setProperty("webdriver.chrome.driver", resourceExecutables + "chromedriver.exe");
-
-//                WebDriverManager.chromedriver().setup();
+                WebDriverManager.chromedriver().setup();
                 webDriver = new ChromeDriver();
+                LOGGER.debug("ChromeDriver file loaded !!!");
 
-            } else if (config.getProperty("browser").equals("msedgedriver_win64")) {
-                System.setProperty("webdriver.edge.driver", resourceExecutables + "msedgedriver_win64.exe");
+            } else if (config.getProperty("browser").equals("edge")) {
+                WebDriverManager.edgedriver().setup();
                 webDriver = new EdgeDriver();
-                logger.debug("EdgeDriver file loaded !!!");
-
-            } else if (config.getProperty("browser").equals("msedgedriver_mac")) {
-                System.setProperty("webdriver.edge.driver", resourceExecutables + "msedgedriver_mac");
-                webDriver = new EdgeDriver();
-                logger.debug("EdgeDriver file loaded !!!");
+                LOGGER.debug("EdgeDriver file loaded !!!");
 
             } else if (config.getProperty("browser").equals("safari")) {
-//                System.setProperty("webdriver.edge.driver", resourceExecutables + "IEDriverServer.exe");
+                WebDriverManager.safaridriver().setup();
                 webDriver = new SafariDriver();
+                LOGGER.debug("SafariDriver file loaded !!!");
 
             }
 
             webDriver.get(config.getProperty("test.site.url"));
-            logger.debug("Navigated to : " + config.getProperty("test.site.url"));
+            LOGGER.debug("Navigated to : " + config.getProperty("test.site.url"));
             webDriver.manage().window().maximize();
-            webDriver.manage().timeouts().implicitlyWait(Integer.parseInt(config.getProperty("implicit.wait")), TimeUnit.SECONDS);
+            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Long.parseLong(config.getProperty("implicit.wait"))));
+            webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
 
         }
 
@@ -125,7 +136,7 @@ public class TestBase {
             webDriver.quit();
         }
 
-        logger.debug("Test Execution Completed !!!");
+        LOGGER.debug("Test Execution Completed !!!");
 
     }
 

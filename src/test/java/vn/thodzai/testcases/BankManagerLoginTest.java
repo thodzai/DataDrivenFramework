@@ -10,13 +10,13 @@ public class BankManagerLoginTest extends TestBase {
     @Test
     public void loginAsBankManager() {
 
-        logger.debug("Inside Login Test");
+        LOGGER.debug("Inside Login Test");
 
-        webDriver.findElement(By.cssSelector(OR.getProperty("bmlBtn"))).click();
+        webDriver.findElement(By.cssSelector(OR.getProperty("bankManagerLoginBtn_CSS"))).click();
 
         Assert.assertTrue(isElementPresent(By.cssSelector(OR.getProperty("addCustomerBtn_CSS"))), "Login not successful");
 
-        logger.debug("Login Successfully Executed");
+        LOGGER.debug("Login Successfully Executed");
 
     }
 
