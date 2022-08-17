@@ -2,11 +2,25 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Data Driven Basics">
 
-    <test name="BankManagerLoginTest">
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+        <listener class-name="vn.thodzai.listeners.CustomListener"/>
+    </listeners>
+    
+    <test name="Bank Manager Login Test">
 <!--        <parameter name="emailid" value="tester456@gmail.com"/>-->
 <!--        <parameter name="password" value="test@123"/>-->
         <classes>
             <class name="vn.thodzai.testcases.BankManagerLoginTest"/>
+        </classes>
+    </test> <!-- Test -->
+
+    <test name="Add Customer Test">
+        <!--        <parameter name="emailid" value="tester456@gmail.com"/>-->
+        <!--        <parameter name="password" value="test@123"/>-->
+        <classes>
+            <class name="vn.thodzai.testcases.AddCustomerTest"/>
         </classes>
     </test> <!-- Test -->
 
