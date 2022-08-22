@@ -4,6 +4,9 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import vn.thodzai.utilities.TestUtil;
+
+import java.io.IOException;
 
 public class CustomListener implements ITestListener {
 
@@ -22,7 +25,17 @@ public class CustomListener implements ITestListener {
         ITestListener.super.onTestFailure(result);
 
         System.setProperty("org.uncommons.reportng.escape-output", "false");
-        Reporter.log("Capturing screenshot");
+
+        try {
+            TestUtil.captureScreenshot();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + ">" + TestUtil.screenshotName + "</a>");
+        Reporter.log("<br/>");
+        Reporter.log("<a target=\"_blank\" href=" + TestUtil.screenshotName + "><img src=" + TestUtil.screenshotName + " height=200 width=200 /></a>");
+
     }
 
     @Override

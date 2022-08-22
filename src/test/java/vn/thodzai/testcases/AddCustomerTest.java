@@ -13,7 +13,7 @@ public class AddCustomerTest extends TestBase {
     @Test(dataProvider = "getData")
     public void addCustomer(String firstName, String lastName, String postCode, String popUpMessage) throws InterruptedException {
 
-        webDriver.findElement(By.cssSelector(OR.getProperty("bankManagerLoginBtn_CSS"))).click();
+//        webDriver.findElement(By.cssSelector(OR.getProperty("bankManagerLoginBtn_CSS"))).click();
         webDriver.findElement(By.cssSelector(OR.getProperty("addCustomerBtn_CSS"))).click();
         webDriver.findElement(By.cssSelector(OR.getProperty("firstNameTxt_CSS"))).sendKeys(firstName);
         webDriver.findElement(By.xpath(OR.getProperty("lastNameTxt_XPATH"))).sendKeys(lastName);
