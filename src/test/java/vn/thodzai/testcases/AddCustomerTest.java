@@ -24,6 +24,8 @@ public class AddCustomerTest extends TestBase {
         Assert.assertTrue(alert.getText().contains(popUpMessage));
         alert.accept();
 
+        Assert.fail();
+
     }
 
     @DataProvider

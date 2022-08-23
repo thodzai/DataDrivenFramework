@@ -1,7 +1,7 @@
-[DEBUG] 2022-08-22 12:47:30.748 [main] TestBase - Config file loaded !!!
-[DEBUG] 2022-08-22 12:47:30.749 [main] TestBase - OR file loaded !!!
-[DEBUG] 2022-08-22 12:47:35.124 [main] TestBase - EdgeDriver file loaded !!!
-[DEBUG] 2022-08-22 12:47:38.307 [main] TestBase - Navigated to : https://www.way2automation.com/angularjs-protractor/banking/#/login
-[DEBUG] 2022-08-22 12:47:38.555 [main] TestBase - Inside Login Test
-[DEBUG] 2022-08-22 12:47:39.094 [main] TestBase - Login Successfully Executed
-[DEBUG] 2022-08-22 12:47:42.035 [main] TestBase - Test Execution Completed !!!
+[DEBUG] 2022-08-23 16:10:22.250 [main] TestBase - Config file loaded !!!
+[DEBUG] 2022-08-23 16:10:22.250 [main] TestBase - OR file loaded !!!
+[DEBUG] 2022-08-23 16:10:24.626 [main] TestBase - EdgeDriver file loaded !!!
+[DEBUG] 2022-08-23 16:10:47.472 [main] TestBase - Navigated to : https://www.way2automation.com/angularjs-protractor/banking/#/login
+[DEBUG] 2022-08-23 16:10:47.614 [main] TestBase - Inside Login Test
+[DEBUG] 2022-08-23 16:10:47.835 [main] TestBase - Login Successfully Executed
+[DEBUG] 2022-08-23 16:10:49.207 [main] TestBase - Test Execution Completed !!!
